@@ -10,7 +10,7 @@
 
 @interface UIView (JTAnnotatedView)
 
-@property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) UIFont *annotationFont;
 
 - (void)addAnnotation:(NSString *)title;
 
