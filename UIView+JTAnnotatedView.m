@@ -23,14 +23,14 @@
 - (void)addAnnotation:(NSString *)title {
 	UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleAnnotation:)];
 	[self addGestureRecognizer:tap];
-
+	
 	self.annotationTitle = title;
-
+	
 	UILabel *titleLabel = [[UILabel alloc] init];
 	if (self.annotationFont) {
 		titleLabel.font = self.annotationFont;
 	}
-
+	
 	UIView *annotationView = [[UIView alloc] initWithFrame:[self calculateFrameForString:title withFont:titleLabel.font]];
 	titleLabel.frame = CGRectMake(PADDING / 2, PADDING / 2, annotationView.frame.size.width - PADDING, annotationView.frame.size.height - PADDING);
 	titleLabel.text = title;
@@ -38,22 +38,22 @@
 	[annotationView addSubview:titleLabel];
 	annotationView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:BG_ALPHA];
 	annotationView.layer.cornerRadius = (CORNER_RADIUS / 2.0);
-
+	
 	if (self.frame.origin.x + annotationView.frame.size.width > [[UIScreen mainScreen] bounds].size.width) {
 		CGRect frame = annotationView.frame;
 		frame.origin.x = [[UIScreen mainScreen] bounds].size.width - annotationView.frame.size.width - PADDING / 2;
 		frame.origin.y = self.frame.origin.y - annotationView.frame.size.height - PADDING / 2;
 		annotationView.frame = frame;
 	}
-
-	UIImageView *annotationTail = [[UIImageView alloc] initWithFrame:CGRectMake(annotationView.frame.size.width - 20, annotationView.frame.size.height, 5, 4)];
+	
+	UIImageView *annotationTail = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.origin.x + self.frame.size.width / 2 - 3, annotationView.frame.size.height, 5, 4)];
 	annotationTail.image = [UIImage imageNamed:@"arrowTail"];
 	annotationTail.alpha = BG_ALPHA;
 	[annotationView addSubview:annotationTail];
 
 	annotationView.alpha = 0;
 	self.annotationView = annotationView;
-
+	
 	[self.superview addSubview:annotationView];
 }
 
@@ -71,6 +71,7 @@
 														 options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics
 													attributes:@{NSFontAttributeName: font}
 														 context:nil];
+	frame.origin.y = 0 - frame.size.height - PADDING;
 	frame.size.height += PADDING;
 	frame.size.width += PADDING;
 	return frame;
